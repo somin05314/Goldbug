@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -51,13 +52,29 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"실패: {reason}");
 
-        // UI 실패 창 띄우기
         UIManager.Instance.ShowFailPopup(reason);
 
-        // 사운드, 애니메이션 등도 여기서 처리
-
-        Invoke(nameof(ResetStage), 3f);
+        // 씬 리로드 대신 시뮬레이션 초기화
+        Invoke(nameof(ResetSimulation), 2f);
     }
+
+    public void ResetSimulation()
+    {
+        // 배치 모드로 전환
+        BuildModeManager.Instance.SwitchToPlacement();
+
+        // 플레이어, 구슬, 움직이는 물체 등 초기 위치로 복귀
+        foreach (var resettable in FindObjectsOfType<MonoBehaviour>().OfType<IResettable>())
+        {
+            resettable.ResetToInitialState();
+        }
+
+        // 별 개수 초기화
+        CollectedStars = 0;
+        UIManager.Instance.UpdateStarUI(CollectedStars, TotalStars);
+    }
+
+
 
     public void ResetStage()
     {

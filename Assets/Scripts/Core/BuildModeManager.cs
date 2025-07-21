@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // ← UI 컨트롤용
+using TMPro;
 
 public enum BuildMode
 {
@@ -14,21 +14,34 @@ public class BuildModeManager : MonoBehaviour
 
     public BuildMode currentMode = BuildMode.Placement;
 
+    [Header("UI")]
+    public Button modeSwitchButton;
+    public TextMeshProUGUI modeLabelText;
+
+    // 모드 전환 이벤트
+    public delegate void ModeChanged();
+    public event ModeChanged OnEnterPlacement;
+    public event ModeChanged OnEnterSimulation;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (BuildModeManager.Instance.currentMode == BuildMode.Placement)
-                BuildModeManager.Instance.SwitchToSimulation();
-            else
-                BuildModeManager.Instance.SwitchToPlacement();
-        }
+        // 버튼 클릭 이벤트 연결
+        modeSwitchButton.onClick.AddListener(ToggleMode);
+        UpdateModeUI(); // 초기 UI 갱신
+    }
+
+    void ToggleMode()
+    {
+        if (currentMode == BuildMode.Placement)
+            SwitchToSimulation();
+        else
+            SwitchToPlacement();
     }
 
     public bool IsPlacementMode()
@@ -39,12 +52,34 @@ public class BuildModeManager : MonoBehaviour
     public void SwitchToSimulation()
     {
         currentMode = BuildMode.Simulation;
-        // 여기에 구슬 떨어뜨리기, 타이머 시작 등 연출 넣어도 됨
+        OnEnterSimulation?.Invoke();
+        UpdateModeUI();
     }
+
 
     public void SwitchToPlacement()
     {
         currentMode = BuildMode.Placement;
-        // 초기화할 게 있으면 여기서 처리
+        OnEnterPlacement?.Invoke();
+        UpdateModeUI();
+    }
+
+
+    void UpdateModeUI()
+    {
+        if (modeLabelText != null)
+        {
+            modeLabelText.text = $"Mode: {currentMode}";
+        }
+
+        if (modeSwitchButton != null)
+        {
+            var buttonText = modeSwitchButton.GetComponentInChildren<Text>();
+            if (buttonText != null)
+            {
+                buttonText.text = currentMode == BuildMode.Placement ? "Simulation" : "Make";
+            }
+        }
     }
 }
+

@@ -8,6 +8,10 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
+        // 배치 모드일 때는 따라가지 않음
+        if (BuildModeManager.Instance != null && BuildModeManager.Instance.IsPlacementMode())
+            return;
+
         if (target == null) return;
 
         // 목표 위치 계산 (Z축은 고정)
@@ -21,3 +25,4 @@ public class CameraFollow : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
     }
 }
+

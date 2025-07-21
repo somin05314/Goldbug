@@ -7,6 +7,14 @@ public class PlaceableObject : MonoBehaviour
     private bool isDragging = false;
     private Vector3 offset;
 
+    //임시 선택됨 표시
+    private SpriteRenderer sr;
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
     void OnMouseDown()
     {
         isDragging = true;
@@ -26,6 +34,11 @@ public class PlaceableObject : MonoBehaviour
     {
         if (!BuildModeManager.Instance.IsPlacementMode())
             return;
+
+        if (isSelected)
+            sr.color = Color.yellow; // 선택되면 눈에 띄게
+        else
+            sr.color = Color.white;  // 원래대로
 
         if (isDragging)
         {
