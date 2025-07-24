@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI; // ← UI 컨트롤용
 using TMPro;
+using System.Linq;
 
 public enum BuildMode
 {
@@ -53,6 +54,12 @@ public class BuildModeManager : MonoBehaviour
     {
         currentMode = BuildMode.Simulation;
         OnEnterSimulation?.Invoke();
+
+        foreach (var handler in FindObjectsOfType<MonoBehaviour>().OfType<IModeSwitchHandler>())
+        {
+            handler.OnEnterSimulationMode();
+        }
+
         UpdateModeUI();
     }
 
@@ -61,6 +68,12 @@ public class BuildModeManager : MonoBehaviour
     {
         currentMode = BuildMode.Placement;
         OnEnterPlacement?.Invoke();
+
+        foreach (var handler in FindObjectsOfType<MonoBehaviour>().OfType<IModeSwitchHandler>())
+        {
+            handler.OnEnterPlacementMode();
+        }
+
         UpdateModeUI();
     }
 

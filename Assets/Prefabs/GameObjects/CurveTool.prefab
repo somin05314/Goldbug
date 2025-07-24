@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 5265986732633451098}
   - component: {fileID: 4161120406687789601}
   - component: {fileID: 7163595055021166935}
-  - component: {fileID: 4986415880553468601}
+  - component: {fileID: 1423441432745813627}
+  - component: {fileID: -8398827259952057031}
+  - component: {fileID: 1400241553048307956}
+  - component: {fileID: 5652170435015019884}
   m_Layer: 0
   m_Name: CurveTool
   m_TagString: Untagged
@@ -202,7 +205,7 @@ PolygonCollider2D:
       - {x: 0.29389268, y: -0.40450847}
       - {x: 0.47552824, y: 0.15450856}
   m_UseDelaunayMesh: 0
---- !u!114 &4986415880553468601
+--- !u!114 &1423441432745813627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,6 +214,61 @@ MonoBehaviour:
   m_GameObject: {fileID: 6676098631594623522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8972501c0218d6c4baeb547e711b7d36, type: 3}
+  m_Script: {fileID: 11500000, guid: 44c0ce93a6b35ee479f2fd939edce272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nailSlotPrefab: {fileID: 2905927854599457975, guid: 1b4752a4f2432a74fbe9b08a2dd0e88c, type: 3}
+  targetBody: {fileID: 1400241553048307956}
+--- !u!114 &-8398827259952057031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676098631594623522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786c8e2a3463d2a4daf205b9d690c655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nailSlotPrefab: {fileID: 2905927854599457975, guid: 1b4752a4f2432a74fbe9b08a2dd0e88c, type: 3}
+  spacing: 1.5
+--- !u!50 &1400241553048307956
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676098631594623522}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &5652170435015019884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676098631594623522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061949073a1815419cafc693f468d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

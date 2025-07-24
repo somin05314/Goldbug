@@ -1,8 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerBall : MonoBehaviour, IResettable
+[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
+public class PlayerBall : MonoBehaviour, IModeSwitchHandler, IResettable
 {
     private Collider2D col;
     private Rigidbody2D rb;
@@ -10,7 +9,6 @@ public class PlayerBall : MonoBehaviour, IResettable
 
     private float originalAlpha;
 
-    // 초기 상태 저장용
     private Vector3 initialPosition;
     private Quaternion initialRotation;
 
@@ -22,28 +20,19 @@ public class PlayerBall : MonoBehaviour, IResettable
 
         if (sr != null)
             originalAlpha = sr.color.a;
+
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
     }
 
     private void Start()
     {
-        // 초기 위치 저장
-        initialPosition = transform.position;
-        initialRotation = transform.rotation;
-
-        // BuildMode 이벤트 연결
-        BuildModeManager.Instance.OnEnterPlacement += OnEnterPlacementMode;
-        BuildModeManager.Instance.OnEnterSimulation += OnEnterSimulationMode;
-
-        // 현재 모드에 맞춰 상태 적용
-        if (BuildModeManager.Instance.IsPlacementMode())
-            OnEnterPlacementMode();
-        else
-            OnEnterSimulationMode();
+        OnEnterPlacementMode();
     }
 
     public void OnEnterPlacementMode()
     {
-        ResetToInitialState(); // 초기 위치 복원도 포함됨
+        ResetToInitialState();
 
         rb.simulated = false;
         col.enabled = false;
@@ -76,14 +65,5 @@ public class PlayerBall : MonoBehaviour, IResettable
 
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
-    }
-
-    private void OnDestroy()
-    {
-        if (BuildModeManager.Instance != null)
-        {
-            BuildModeManager.Instance.OnEnterPlacement -= OnEnterPlacementMode;
-            BuildModeManager.Instance.OnEnterSimulation -= OnEnterSimulationMode;
-        }
     }
 }
